@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Шифрование и расшифрование данных</title>
+    <link rel="stylesheet" href="css/style2.css">
+</head>
+<body>
+    <div class="container">
+        <a href="/index.html"><button class="button4" >Артқа</button></a>
+    <h1>Шифрование и расшифрование данных</h1>
+
+    <label for="text">Введите текст:</label>
+    <textarea id="text" rows="4" cols="50"></textarea><br>
+
+    <button onclick="encrypt()">Зашифровать</button>
+    <button onclick="decrypt()">Расшифровать</button>
+
+    <h2>Результат:</h2>
+    <p id="result"></p>
+
+    <script>
+        var alphabet = {
+            'А': 40, 'Б': 41, 'В': 42, 'Г': 43, 'Д': 44, 'Е': 45, 'Ё': 25, 'Ж': 46,
+            'З': 47, 'И': 48, 'Й': 49, 'К': 50, 'Л': 51, 'М': 52, 'Н': 53, 'О': 54,
+            'П': 55, 'Р': 56, 'С': 57, 'Т': 58, 'У': 59, 'Ф': 60, 'Х': 61, 'Ц': 62,
+            'Ч': 63, 'Ш': 64, 'Щ': 65, 'Ъ': 66, 'Ы': 67, 'Ь': 68, 'Э': 69, 'Ю': 70,
+            'Я': 71, ' ': 72  // добавлен пробел
+        };
+
+        function encrypt() {
+            var inputText = document.getElementById("text").value.toUpperCase();
+            var encryptedText = "";
+
+            for (var i = 0; i < inputText.length; i++) {
+                var char = inputText.charAt(i);
+                if (alphabet[char] !== undefined) {
+                    encryptedText += pad(alphabet[char], 2) + " ";
+                } else {
+                    encryptedText += char;
+                }
+            }
+
+            document.getElementById("result").innerText = "Зашифрованный текст: " + encryptedText.trim();
+        }
+
+        function decrypt() {
+            var inputText = document.getElementById("text").value.split(" ");
+            var decryptedText = "";
+
+            for (var i = 0; i < inputText.length; i++) {
+                var code = parseInt(inputText[i]);
+                var char = findCharByCode(code);
+                decryptedText += char !== undefined ? char : code;
+            }
+
+            document.getElementById("result").innerText = "Расшифрованный текст: " + decryptedText;
+
+        }
+
+        function pad(num, size) {
+            var s = num + "";
+            while (s.length < size) s = "0" + s;
+            return s;
+        }
+
+        function findCharByCode(code) {
+            for (var char in alphabet) {
+                if (alphabet[char] === code) {
+                    return char;
+                }
+            }
+            return undefined;
+        }
+        
+    </script>
+    
+</div>
+</body>
+</html>
